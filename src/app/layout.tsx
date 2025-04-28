@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
@@ -21,12 +22,12 @@ export default function RootLayout({
         <nav className="fixed top-0 w-full bg-white dark:bg-gray-900 shadow-md z-50">
           <div className="container mx-auto px-4 py-4">
             <div className="flex justify-between items-center">
-              <a href="/" className="text-xl font-bold">Your Name</a>
+              <Link href="/" className="text-xl font-bold">Paul Henderson</Link>
               <div className="space-x-6">
-                <a href="/" className="hover:text-blue-600 dark:hover:text-blue-400">Home</a>
-                <a href="/about" className="hover:text-blue-600 dark:hover:text-blue-400">About</a>
-                <a href="/projects" className="hover:text-blue-600 dark:hover:text-blue-400">Projects</a>
-                <a href="/contact" className="hover:text-blue-600 dark:hover:text-blue-400">Contact</a>
+                <Link href="/" className="hover:text-blue-600 dark:hover:text-blue-400">Home</Link>
+                <Link href="/about" className="hover:text-blue-600 dark:hover:text-blue-400">About</Link>
+                <Link href="/projects" className="hover:text-blue-600 dark:hover:text-blue-400">Projects</Link>
+                <Link href="/contact" className="hover:text-blue-600 dark:hover:text-blue-400">Contact</Link>
               </div>
             </div>
           </div>
@@ -37,4 +38,4 @@ export default function RootLayout({
       </body>
     </html>
   )
-} 
+}
