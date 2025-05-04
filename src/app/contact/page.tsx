@@ -9,10 +9,12 @@ export default function Contact() {
     message: ''
   })
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setStatus('loading')
+    setErrorMessage('')
 
     try {
       const response = await fetch('/api/contact', {
@@ -24,13 +26,15 @@ export default function Contact() {
       })
 
       if (!response.ok) {
-        throw new Error('Failed to send message')
+        const data = await response.json()
+        throw new Error(data.error || 'Failed to send message')
       }
 
       setStatus('success')
       setFormData({ name: '', email: '', message: '' })
     } catch (error) {
       setStatus('error')
+      setErrorMessage(error instanceof Error ? error.message : 'Failed to send message')
     }
   }
 
@@ -112,7 +116,7 @@ export default function Contact() {
               
               {status === 'error' && (
                 <p className="text-red-600 dark:text-red-400 text-center">
-                  Failed to send message. Please try again.
+                  {errorMessage}
                 </p>
               )}
             </form>

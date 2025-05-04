@@ -10,7 +10,7 @@ export default function About() {
         <section className="mb-16">
           <h2 className="text-2xl font-semibold mb-4">Who I Am</h2>
           <p className="text-gray-600 dark:text-gray-300 mb-4">
-            I am a passionate Software Engineer and Data Engineer with a strong foundation in software development, data engineering, and machine learning. I have experience building scalable data pipelines, APIs, and automation solutions using Python, SQL, AWS, and modern web technologies. I am actively seeking Software Engineering and Machine Learning Engineering roles where I can leverage my technical skills and problem-solving abilities to build impactful solutions.
+            I am a passionate Software Engineer particularly interested in machine learning, with a strong foundation in software development, data engineering, and machine learning. I have experience building scalable data pipelines, APIs, and automation solutions using Python, SQL, AWS, and modern web technologies. I am actively seeking Software Engineering and Machine Learning Engineering roles where I can leverage my technical skills and problem-solving abilities to build impactful solutions.
           </p>
         </section>
 
