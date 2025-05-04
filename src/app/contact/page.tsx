@@ -1,6 +1,47 @@
-import React from 'react'
+'use client'
+
+import React, { useState } from 'react'
 
 export default function Contact() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  })
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setStatus('loading')
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to send message')
+      }
+
+      setStatus('success')
+      setFormData({ name: '', email: '', message: '' })
+    } catch (error) {
+      setStatus('error')
+    }
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
   return (
     <div className="min-h-screen py-20">
       <div className="container mx-auto px-4">
@@ -9,7 +50,7 @@ export default function Contact() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Contact Form */}
           <div>
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                   Name
@@ -18,6 +59,9 @@ export default function Contact() {
                   type="text"
                   id="name"
                   name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700"
                 />
               </div>
@@ -30,6 +74,9 @@ export default function Contact() {
                   type="email"
                   id="email"
                   name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700"
                 />
               </div>
@@ -41,6 +88,9 @@ export default function Contact() {
                 <textarea
                   id="message"
                   name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
                   rows={4}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700"
                 ></textarea>
@@ -48,10 +98,23 @@ export default function Contact() {
               
               <button
                 type="submit"
-                className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+                disabled={status === 'loading'}
+                className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Send Message
+                {status === 'loading' ? 'Sending...' : 'Send Message'}
               </button>
+
+              {status === 'success' && (
+                <p className="text-green-600 dark:text-green-400 text-center">
+                  Message sent successfully!
+                </p>
+              )}
+              
+              {status === 'error' && (
+                <p className="text-red-600 dark:text-red-400 text-center">
+                  Failed to send message. Please try again.
+                </p>
+              )}
             </form>
           </div>
           
